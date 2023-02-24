@@ -36,7 +36,7 @@ final public class JMBluetoothPermissionManager: PermissionType.PermissionManage
     
     public override func requestPermission(completion: @escaping (Bool, Error?) -> Void) {
         self.completion = completion
-        self.manager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: 0])
+        self.manager = CBCentralManager(delegate: self, queue: nil)
     }
 }
 
@@ -51,17 +51,5 @@ extension JMBluetoothPermissionManager: CBCentralManagerDelegate {
         default:
             self.completion?(false, nil)
         }
-
-        switch central.state {
-           case .unauthorized:
-           case .unknown:
-           case .unsupported:
-           case .poweredOn:
-               self.manager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: 1])
-           case .poweredOff:
-               self.manager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: 0])
-           case .resetting:
-           @unknown default:
-       }
     }
 }
