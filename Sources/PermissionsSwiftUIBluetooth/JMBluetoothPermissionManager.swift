@@ -47,7 +47,9 @@ final public class JMBluetoothPermissionManager: PermissionType.PermissionManage
 
     public override func requestPermission(completion: @escaping (Bool, Error?) -> Void) {
         self.completion = completion
-        self.manager = CBCentralManager(delegate: self, queue: nil)
+        if self.authorizationStatus != .authorized {
+            self.manager = CBCentralManager(delegate: self, queue: nil)
+        }
     }
 }
 
