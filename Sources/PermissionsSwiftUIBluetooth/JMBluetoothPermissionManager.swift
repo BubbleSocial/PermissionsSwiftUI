@@ -22,18 +22,29 @@ final public class JMBluetoothPermissionManager: PermissionType.PermissionManage
     public override var permissionType: PermissionType {
         .bluetooth
     }
-    
+
     public override var authorizationStatus: AuthorizationStatus {
-        switch CBCentralManager().authorization{
-        case .allowedAlways:
-            return .authorized
-        case .notDetermined:
-            return .notDetermined
-        default:
-            return .denied
+        if #available(iOS 13.1, *) {
+            switch CBCentralManager.authorization {
+            case .allowedAlways:
+                return .authorized
+            case .notDetermined:
+                return .notDetermined
+            default:
+                return .denied
+            }
+        } else {
+            switch CBCentralManager().authorization {
+            case .allowedAlways:
+                return .authorized
+            case .notDetermined:
+                return .notDetermined
+            default:
+                return .denied
+            }
         }
     }
-    
+
     public override func requestPermission(completion: @escaping (Bool, Error?) -> Void) {
         self.completion = completion
         self.manager = CBCentralManager(delegate: self, queue: nil)
