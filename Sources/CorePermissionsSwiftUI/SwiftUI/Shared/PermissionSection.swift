@@ -16,7 +16,7 @@ struct PermissionSection: View {
     var body: some View {
         VStack {
             ForEach(Array(zip(store.permissions.indices, store.permissions)), id: \.0) {index, permission in
-                PermissionSectionCell(permissionManager: permission, showing: $showing)
+                PermissionSectionCell(permissionManager: permission, allowButtonStatus: permission.authorizationStatus, showing: $showing)
                 if store.permissions.count > 1 && index != store.permissions.count - 1{
                     Divider()
                 }
