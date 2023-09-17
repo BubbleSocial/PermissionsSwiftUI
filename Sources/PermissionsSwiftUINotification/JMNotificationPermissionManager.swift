@@ -57,11 +57,17 @@ public final class JMNotificationPermissionManager: PermissionType.PermissionMan
     var notificationManager = UNUserNotificationCenter.current()
 
     override public func requestPermission(completion: @escaping (Bool, Error?) -> Void) {
-        notificationManager.requestAuthorization(options: [.badge,.alert,.sound]){ granted, error in
-            completion(granted, error)
-            
+        switch self.authorizationStatus {
+        case .denied:
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
+        default:
+            notificationManager.requestAuthorization(options: [.badge,.alert,.sound]){ granted, error in
+                completion(granted, error)
+            }
         }
-       
+ 
         UIApplication.shared.registerForRemoteNotifications()
     }
 }

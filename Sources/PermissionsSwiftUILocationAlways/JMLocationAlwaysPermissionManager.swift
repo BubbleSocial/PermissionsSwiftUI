@@ -58,8 +58,12 @@ public final class JMLocationAlwaysPermissionManager: PermissionType.PermissionM
         var status:CLAuthorizationStatus{ 
             CLLocationManager.authorizationStatus()
         }
-        
+
         switch status {
+        case .denied:
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
         case .notDetermined:
             self.locationManager.delegate = self
             self.locationManager.requestAlwaysAuthorization()
