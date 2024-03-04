@@ -1,5 +1,5 @@
 /* MARK: Allow Button */
-"button_allow" = "ALLOW";
+"button_allow" = "NEXT";
 "button_allowed" = "ALLOWED";
 "button_denied" = "DENIED";
 "button_next" = "NEXT";
